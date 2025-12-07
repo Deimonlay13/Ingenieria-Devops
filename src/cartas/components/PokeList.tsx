@@ -17,13 +17,14 @@ export const PokeList: FC<Props> = ({ cartas }) => {
           <div key={carta.id} className="col-12 col-sm-6 col-md-3 col-lg-3">
             <div className="card h-100 text-center card-translucent">
               <img
-                src={carta.image}
+                src={carta.img}
                 className="card-img-top"
-                alt={carta.name}
+                alt={carta.nombre}
               />
               <div className="card-body p-2">
-                <h5 className="card-title">{carta.name}</h5>
-                <p className="card-text">Precio: ${carta.price}</p>
+                <h5 className="card-title">{carta.nombre}</h5>
+                <p className="card-text">Precio: ${carta.precio}</p>
+                <p className="card-text">Stock: {carta.stock}</p>
                 <Counter carta={carta} />
               </div>
             </div>
