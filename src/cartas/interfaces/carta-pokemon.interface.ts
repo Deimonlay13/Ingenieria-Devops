@@ -1,6 +1,7 @@
 export interface CartaPokemon {
     id: string;
-    name: string;
-    image: string,
-    price: number;
+    nombre: string;
+    img: string,
+    precio: number;
+    stock: number;
 }
