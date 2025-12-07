@@ -7,6 +7,7 @@ import { Noticias } from "../noticias/component/Noticias";
 import { AuthLayout } from "../layout/AuthLayout";
 import { Login } from "../login/Login";
 import { Registro } from "../login/Registro";
+import Perfil from "../usuario/components/Perfil";
 
 export const appRouter = createBrowserRouter([
   {
@@ -30,11 +31,11 @@ export const appRouter = createBrowserRouter([
     path: "/",
     element: <Layout />,
     children: [
-      { path: "/cartas", element: <PokeContainer /> },
-      { path: "/", element: <Bienvenida /> },
-      { path: "/contacto", element: <Formulario /> },
-      { path: "/noticias", element: <Noticias /> },
-      { path: "/noticias", element: <Noticias /> },
+      { path: "cartas", element: <PokeContainer /> },
+      { path: "", element: <Bienvenida /> },
+      { path: "contacto", element: <Formulario /> },
+      { path: "noticias", element: <Noticias /> },
+      {path: "perfil", element: <Perfil />}
     ],
   },
   {

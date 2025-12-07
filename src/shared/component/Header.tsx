@@ -113,7 +113,19 @@ const Header = () => {
               <Dropdown.Item disabled>
                 Hola, {user.nombre} {user.apellido}
               </Dropdown.Item>
+
               <Dropdown.Divider />
+
+              <Dropdown.Item as={NavLink} to="/perfil">
+                Mi Perfil
+              </Dropdown.Item>
+
+              <Dropdown.Item as={NavLink} to="/mis-compras">
+                Mis Compras
+              </Dropdown.Item>
+
+              <Dropdown.Divider />
+
               <Dropdown.Item onClick={logout}>Cerrar Sesión</Dropdown.Item>
             </Dropdown.Menu>
           </Dropdown>

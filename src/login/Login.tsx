@@ -22,6 +22,8 @@ export const Login = () => {
       localStorage.setItem("userNombre", data.nombre);
       localStorage.setItem("userApellido", data.apellido);
       localStorage.setItem("userEmail", data.email);
+      localStorage.setItem("clienteID", data.id);
+
 
       navigate("/"); // Redirige al home
     } catch (err: unknown) {
