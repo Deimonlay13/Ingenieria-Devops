@@ -23,7 +23,7 @@ export const Login = () => {
       localStorage.setItem("userApellido", data.apellido);
       localStorage.setItem("userEmail", data.email);
       localStorage.setItem("clienteID", data.id);
-
+      localStorage.setItem("userRut", data.rut)
 
       navigate("/"); // Redirige al home
     } catch (err: unknown) {
