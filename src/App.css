@@ -51,6 +51,11 @@ body::before {
     animation: shine 3s infinite;
 }
 
+.carrito {
+    width: 45% !important;
+    max-width: 500px !important;
+}
+
 @keyframes shine {
     0% {
         left: -50%;

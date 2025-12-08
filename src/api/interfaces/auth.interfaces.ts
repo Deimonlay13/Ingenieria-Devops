@@ -9,6 +9,7 @@ export interface LoginResponse {
   nombre: string;
   apellido:string;
   email: string;
+  rut: string;
 }
 
 

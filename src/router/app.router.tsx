@@ -34,11 +34,10 @@ export const appRouter = createBrowserRouter([
     children: [
       { path: "cartas", element: <PokeContainer /> },
       { path: "", element: <Bienvenida /> },
-      { path: "contacto", element: <Formulario /> },
+      { path: "comprar", element: <Formulario /> },
       { path: "noticias", element: <Noticias /> },
-      {path: "perfil", element: <Perfil />},
-      {path: "compras", element: <MisCompras />}
-
+      { path: "perfil", element: <Perfil /> },
+      { path: "compras", element: <MisCompras /> },
     ],
   },
   {

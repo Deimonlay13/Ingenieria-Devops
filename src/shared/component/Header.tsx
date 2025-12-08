@@ -6,10 +6,11 @@ import {
   Figure,
   Dropdown,
 } from "react-bootstrap";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { useCart } from "../../cartas/context/CartContext";
 import { useState, useEffect } from "react";
 import { CartDetails } from "../../cartas/components/CartDetails";
+import "../../App.css"
 
 const Header = () => {
   const { totalItems } = useCart();
@@ -19,6 +20,13 @@ const Header = () => {
   const [user, setUser] = useState<{ nombre: string; apellido: string } | null>(
     null
   );
+
+  const navigate = useNavigate();
+
+  const handleComprar = () => {
+    setShowCart(false);
+    navigate("/comprar");
+  };
 
   // Cargar usuario desde localStorage
   useEffect(() => {
@@ -68,9 +76,9 @@ const Header = () => {
             <Nav.Link as={NavLink} to="/noticias">
               Noticias
             </Nav.Link>
-            <Nav.Link as={NavLink} to="/contacto">
+            {/* <Nav.Link as={NavLink} to="/contacto">
               Contacto
-            </Nav.Link>
+            </Nav.Link> */}
 
             {/* SI NO HAY USUARIO → Mostrar botón iniciar sesión */}
             {!user && (
@@ -132,12 +140,23 @@ const Header = () => {
         )}
       </Container>
 
-      <Offcanvas show={showCart} placement="end" onHide={handleClose}>
+      <Offcanvas
+        className="carrito"
+        show={showCart}
+        placement="end"
+        onHide={handleClose}
+      >
         <Offcanvas.Header closeButton>
           <Offcanvas.Title>Tu carrito 🛒</Offcanvas.Title>
         </Offcanvas.Header>
         <Offcanvas.Body>
           <CartDetails />
+          <button
+            className="btn btn-success btn-lg w-100 mt-4"
+            onClick={handleComprar}
+          >
+            Comprar
+          </button>
         </Offcanvas.Body>
       </Offcanvas>
     </Navbar>
