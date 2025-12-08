@@ -120,7 +120,7 @@ const Header = () => {
                 Mi Perfil
               </Dropdown.Item>
 
-              <Dropdown.Item as={NavLink} to="/mis-compras">
+              <Dropdown.Item as={NavLink} to="/compras">
                 Mis Compras
               </Dropdown.Item>
 

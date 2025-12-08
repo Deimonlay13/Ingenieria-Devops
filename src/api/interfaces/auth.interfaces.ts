@@ -10,3 +10,21 @@ export interface LoginResponse {
   apellido:string;
   email: string;
 }
+
+
+export interface RegisterRequestData {
+  nombre: string;
+  apellido: string
+  rut: string
+  email: string;
+  contraseña: string;
+}
+
+export interface User {
+  idUsuario: number;
+  nombre: string;
+  apellido: string;
+  email: string;
+  rut: string;
+  contraseña: string;
+}

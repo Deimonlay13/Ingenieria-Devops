@@ -8,6 +8,7 @@ import { AuthLayout } from "../layout/AuthLayout";
 import { Login } from "../login/Login";
 import { Registro } from "../login/Registro";
 import Perfil from "../usuario/components/Perfil";
+import MisCompras from "../compras/compras";
 
 export const appRouter = createBrowserRouter([
   {
@@ -35,7 +36,9 @@ export const appRouter = createBrowserRouter([
       { path: "", element: <Bienvenida /> },
       { path: "contacto", element: <Formulario /> },
       { path: "noticias", element: <Noticias /> },
-      {path: "perfil", element: <Perfil />}
+      {path: "perfil", element: <Perfil />},
+      {path: "compras", element: <MisCompras />}
+
     ],
   },
   {
