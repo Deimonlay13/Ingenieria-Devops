@@ -1,37 +1,28 @@
 import React, { useEffect, useState } from "react";
-
-interface User {
-  idCliente: number;
-  nombre: string;
-  apellido: string;
-  email: string;
-  rut: string;
-  contraseña: string;
-}
+import type { User } from "../../api/interfaces/auth.interfaces";
+import { deleteUser, getUserById, updateUser } from "../../api/userServer";
 
 const Perfil = () => {
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
   const [message, setMessage] = useState("");
-  const [showModal, setShowModal] = useState(false); // Control del modal
+  const [showModal, setShowModal] = useState(false);
 
   const userId = localStorage.getItem("clienteID");
 
   useEffect(() => {
-    if (!userId) {
-      setLoading(false);
-      return;
-    }
-    fetch(`http://localhost:8080/usuario/${userId}`)
-      .then((res) => res.json())
-      .then((data: User) => {
-        setUser({ ...data, contraseña: "" });
-        setLoading(false);
-      })
-      .catch((err) => {
+    const fetchUser = async () => {
+      try {
+        const data = await getUserById(userId);
+        setUser({ ...data, contraseña: "" }); // no mostrar contraseña real
+      } catch (err) {
         console.error(err);
+      } finally {
         setLoading(false);
-      });
+      }
+    };
+
+    fetchUser();
   }, [userId]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -39,9 +30,10 @@ const Perfil = () => {
     if (user) setUser({ ...user, [name]: value });
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     if (!user) return;
 
+    // Validaciones
     if (!user.nombre.trim() || !user.apellido.trim()) {
       setMessage("Nombre y apellido no pueden estar vacíos");
       return;
@@ -51,36 +43,28 @@ const Perfil = () => {
       return;
     }
 
-    const updatedData = {
-      nombre: user.nombre,
-      apellido: user.apellido,
-      contraseña: user.contraseña,
-    };
-
-    fetch(`http://localhost:8080/usuario/${user.idCliente}`, {
-      method: "PUT",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(updatedData),
-    })
-      .then((res) => {
-        if (res.ok) return res.json();
-        throw new Error("Error al actualizar el perfil");
-      })
-      .then(() => setMessage("Perfil actualizado correctamente"))
-      .catch((err) => setMessage(err.message));
+    try {
+      await updateUser(user.idUsuario, {
+        nombre: user.nombre,
+        apellido: user.apellido,
+        contraseña: user.contraseña,
+      });
+      setMessage("Perfil actualizado correctamente");
+    } catch {
+      setMessage(message);
+    }
   };
 
-  const handleDelete = () => {
+  const handleDelete = async () => {
     if (!user) return;
 
-    fetch(`http://localhost:8080/usuario/${user.idCliente}`, {
-      method: "DELETE",
-    })
-      .then(() => {
-        localStorage.clear();
-        window.location.href = "/";
-      })
-      .catch(() => alert("Error al eliminar la cuenta"));
+    try {
+      await deleteUser(user.idUsuario);
+      localStorage.clear();
+      window.location.href = "/";
+    } catch {
+      alert("Error al eliminar la cuenta");
+    }
   };
 
   if (loading) return <p>Cargando perfil...</p>;
@@ -146,7 +130,6 @@ const Perfil = () => {
         Guardar
       </button>
 
-      {/* Botón para abrir modal */}
       <button
         className="btn btn-danger w-100"
         onClick={() => setShowModal(true)}
@@ -154,13 +137,12 @@ const Perfil = () => {
         Eliminar cuenta
       </button>
 
-      {/* Modal de Bootstrap */}
       {showModal && (
         <div
           className="modal fade show d-block"
           style={{ backgroundColor: "rgba(0,0,0,0.5)" }}
         >
-          <div className="modal-dialog">
+          <div className="modal-dialog modal-dialog-centered">
             <div className="modal-content">
               <div className="modal-header">
                 <h5 className="modal-title">Confirmar eliminación</h5>

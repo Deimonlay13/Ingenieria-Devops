@@ -1,4 +1,4 @@
-import type { LoginRequestData, LoginResponse } from "./interfaces/auth.interfaces";
+import type { LoginRequestData, LoginResponse, RegisterRequestData } from "./interfaces/auth.interfaces";
 
 export const API_URL = "http://localhost:8080/auth";
 
@@ -16,14 +16,6 @@ export async function loginRequest(data: LoginRequestData): Promise<LoginRespons
   }
 
   return response.json();
-}
-
-export interface RegisterRequestData {
-  nombre: string;
-  apellido: string
-  rut: string
-  email: string;
-  contraseña: string;
 }
 
 export async function registerRequest(data: RegisterRequestData): Promise<string> {
