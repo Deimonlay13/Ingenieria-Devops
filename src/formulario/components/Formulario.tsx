@@ -1,4 +1,4 @@
-import { Form, Row, Col, Button, Container, Alert } from "react-bootstrap";
+import { Form, Row, Col, Button, Container, Alert, Modal } from "react-bootstrap";
 import "./Formulario.css";
 import { useState, type FormEvent, useEffect } from "react";
 import { useCart } from "../../cartas/context/CartContext";
@@ -18,6 +18,11 @@ export const Formulario = () => {
   const [otraComuna, setOtraComuna] = useState("");
   const [direccion, setDireccion] = useState("");
   const [numero, setNumero] = useState("");
+  
+
+    const [modalMsg, setModalMsg] = useState("");
+    const [modalTitle, setModalTitle] = useState("");
+    const [showModal, setShowModal] = useState(false);
 
   const regiones = ["Metropolitana", "Valparaíso", "Biobío"];
   const comunasPorRegion: Record<string, string[]> = {
@@ -29,6 +34,7 @@ export const Formulario = () => {
 
   const { cart, totalAmount } = useCart();
 
+  const handleCloseModal = () => setShowModal(false);
   // --- Cargar datos desde localStorage al iniciar ---
   useEffect(() => {
     
@@ -49,7 +55,7 @@ export const Formulario = () => {
       if (!clienteID) return;
 
       try {
-        const response = await fetch(`http://localhost:8080/usuario/${clienteID}`);
+        const response = await fetch(`http://localhost:8080/direccion/usuario/${clienteID}`);
         if (response.ok) {
           const data = await response.json();
           setDireccion(data.calle || "");
@@ -73,12 +79,6 @@ export const Formulario = () => {
   }, []);
 
   // --- Guardar cambios en localStorage en tiempo real ---
-  
-  useEffect(() => { localStorage.setItem("correo", correo); }, [correo]);
-  useEffect(() => { localStorage.setItem("nombre", nombre); }, [nombre]);
-  useEffect(() => { localStorage.setItem("apellidos", apellidos); }, [apellidos]);
-  useEffect(() => { localStorage.setItem("rut", rut); }, [rut]);
-  useEffect(() => { setComuna(""); }, [region]);
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -118,10 +118,19 @@ export const Formulario = () => {
       if (!response.ok) throw new Error("Error al guardar la dirección");
 
       const data = await response.json();
-      alert("Dirección guardada correctamente!");
+      
+      setModalTitle("Dirección guardada");
+      setModalMsg("✔ La dirección se ha guardado correctamente.");
+      setShowModal(true);
       console.log(data);
+      
     } catch (error: any) {
-      alert(error.message);
+      console.log(error);
+          setModalTitle("Error");
+          setModalMsg(
+            error.message || "Ocurrió un error al guardar la dirección."
+          );
+          setShowModal(true);
     }
   };
 
@@ -330,6 +339,18 @@ export const Formulario = () => {
           </div>
         </Col>
       </Row>
+      {/* Modal */}
+      <Modal show={showModal} onHide={handleCloseModal} centered>
+        <Modal.Header closeButton>
+          <Modal.Title>{modalTitle}</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>{modalMsg}</Modal.Body>
+        <Modal.Footer>
+          <Button variant="primary" onClick={handleCloseModal}>
+            Cerrar
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </Container>
   );
 };
