@@ -2,14 +2,20 @@ import React, { useState } from "react";
 import { useStripe, useElements, CardElement } from "@stripe/react-stripe-js";
 import axios from "axios";
 import { useCart } from "../cartas/context/CartContext";
+import { guardarVenta } from "../api/compras";
+import { useNavigate } from "react-router-dom";
+
 
 const Pago: React.FC = () => {
     const stripe = useStripe();
     const elements = useElements();
-    const { totalAmount, clearCart } = useCart();
+    const { totalAmount, clearCart, cart } = useCart();
     const [loading, setLoading] = useState(false);
     const [mensaje, setMensaje] = useState("");
 
+
+    const navigate = useNavigate();
+    
     const handlePayment = async () => {
         if (!stripe || !elements) return;
         setLoading(true);
@@ -31,10 +37,25 @@ const Pago: React.FC = () => {
             return;
         }
 
-        if (resultado.paymentIntent?.status === "succeeded") {
-            setMensaje("¡Pago realizado con éxito!");
-            clearCart();
-        }
+       if (resultado.paymentIntent?.status === "succeeded") {
+         setMensaje("¡Pago realizado con éxito!");
+         try {
+           await guardarVenta(
+             cart.map((item) => ({
+               ...item,
+               carta: { ...item.carta, id: Number(item.carta.id) },
+             })),
+             totalAmount
+           );
+           clearCart();
+            setTimeout(() => {
+              navigate("/compras");
+            }, 1500);
+         } catch (error) {
+           setMensaje("Pago realizado, pero no se pudo guardar la venta.");
+           console.error(error);
+         }
+       }
         } catch (error) {
         console.error(error);
         setMensaje("No se pudo procesar el pago.");

@@ -108,34 +108,41 @@ export const Formulario = () => {
       if (!idUsuario) throw new Error("Usuario no encontrado");
 
       const direccionPayload = {
-        calle : direccion,
+        calle: direccion,
         numero,
         region,
         comuna: comuna === "otra" ? otraComuna : comuna,
       };
 
-      const response = await fetch(`http://localhost:8080/direccion/usuario/${idUsuario}`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(direccionPayload),
-      });
+      const response = await fetch(
+        `http://localhost:8080/direccion/usuario/${idUsuario}`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(direccionPayload),
+        }
+      );
 
       if (!response.ok) throw new Error("Error al guardar la dirección");
 
       const data = await response.json();
-      
+
       setModalTitle("Dirección guardada");
       setModalMsg("✔ La dirección se ha guardado correctamente.");
       setShowModal(true);
       console.log(data);
-      
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.log(error);
-          setModalTitle("Error");
-          setModalMsg(
-            error.message || "Ocurrió un error al guardar la dirección."
-          );
-          setShowModal(true);
+
+      if (error instanceof Error) {
+        setModalTitle("Error");
+        setModalMsg(error.message);
+      } else {
+        setModalTitle("Error");
+        setModalMsg("Ocurrió un error al guardar la dirección.");
+      }
+
+      setShowModal(true);
     }
   };
 
