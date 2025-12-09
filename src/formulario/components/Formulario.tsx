@@ -2,6 +2,7 @@ import { Form, Row, Col, Button, Container, Alert, Modal } from "react-bootstrap
 import "./Formulario.css";
 import { useState, type FormEvent, useEffect } from "react";
 import { useCart } from "../../cartas/context/CartContext";
+import { useNavigate } from "react-router-dom";
 
 
 export const Formulario = () => {
@@ -18,6 +19,8 @@ export const Formulario = () => {
   const [otraComuna, setOtraComuna] = useState("");
   const [direccion, setDireccion] = useState("");
   const [numero, setNumero] = useState("");
+
+  const navigate = useNavigate();
   
 
     const [modalMsg, setModalMsg] = useState("");
@@ -78,7 +81,6 @@ export const Formulario = () => {
     fetchDireccion();
   }, []);
 
-  // --- Guardar cambios en localStorage en tiempo real ---
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -86,14 +88,17 @@ export const Formulario = () => {
 
     if (!form.checkValidity()) {
       event.stopPropagation();
+      setValidated(true);
+      return;
     }
 
     setValidated(true);
+    setShowSuccess(true);
 
-    if (form.checkValidity()) {
-      setShowSuccess(true);
-      setTimeout(() => setShowSuccess(false), 3500);
-    }
+
+    setTimeout(() => {
+      navigate("/pago");
+    }, 1200);
   };
 
   // --- Guardar dirección en la base de datos ---
@@ -103,34 +108,41 @@ export const Formulario = () => {
       if (!idUsuario) throw new Error("Usuario no encontrado");
 
       const direccionPayload = {
-        calle : direccion,
+        calle: direccion,
         numero,
         region,
         comuna: comuna === "otra" ? otraComuna : comuna,
       };
 
-      const response = await fetch(`http://localhost:8080/direccion/usuario/${idUsuario}`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(direccionPayload),
-      });
+      const response = await fetch(
+        `http://localhost:8080/direccion/usuario/${idUsuario}`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(direccionPayload),
+        }
+      );
 
       if (!response.ok) throw new Error("Error al guardar la dirección");
 
       const data = await response.json();
-      
+
       setModalTitle("Dirección guardada");
       setModalMsg("✔ La dirección se ha guardado correctamente.");
       setShowModal(true);
       console.log(data);
-      
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.log(error);
-          setModalTitle("Error");
-          setModalMsg(
-            error.message || "Ocurrió un error al guardar la dirección."
-          );
-          setShowModal(true);
+
+      if (error instanceof Error) {
+        setModalTitle("Error");
+        setModalMsg(error.message);
+      } else {
+        setModalTitle("Error");
+        setModalMsg("Ocurrió un error al guardar la dirección.");
+      }
+
+      setShowModal(true);
     }
   };
 

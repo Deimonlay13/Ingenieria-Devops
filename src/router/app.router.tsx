@@ -9,6 +9,7 @@ import { Login } from "../login/Login";
 import { Registro } from "../login/Registro";
 import Perfil from "../usuario/components/Perfil";
 import MisCompras from "../compras/compras";
+import Pago from "../compras/Pago";
 
 export const appRouter = createBrowserRouter([
   {
@@ -35,6 +36,7 @@ export const appRouter = createBrowserRouter([
       { path: "cartas", element: <PokeContainer /> },
       { path: "", element: <Bienvenida /> },
       { path: "comprar", element: <Formulario /> },
+      { path: "pago", element: <Pago /> },
       { path: "noticias", element: <Noticias /> },
       { path: "perfil", element: <Perfil /> },
       { path: "compras", element: <MisCompras /> },
