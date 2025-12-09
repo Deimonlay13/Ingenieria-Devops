@@ -2,6 +2,7 @@ import { Form, Row, Col, Button, Container, Alert, Modal } from "react-bootstrap
 import "./Formulario.css";
 import { useState, type FormEvent, useEffect } from "react";
 import { useCart } from "../../cartas/context/CartContext";
+import { useNavigate } from "react-router-dom";
 
 
 export const Formulario = () => {
@@ -18,6 +19,8 @@ export const Formulario = () => {
   const [otraComuna, setOtraComuna] = useState("");
   const [direccion, setDireccion] = useState("");
   const [numero, setNumero] = useState("");
+
+  const navigate = useNavigate();
   
 
     const [modalMsg, setModalMsg] = useState("");
@@ -78,7 +81,6 @@ export const Formulario = () => {
     fetchDireccion();
   }, []);
 
-  // --- Guardar cambios en localStorage en tiempo real ---
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -86,14 +88,17 @@ export const Formulario = () => {
 
     if (!form.checkValidity()) {
       event.stopPropagation();
+      setValidated(true);
+      return;
     }
 
     setValidated(true);
+    setShowSuccess(true);
 
-    if (form.checkValidity()) {
-      setShowSuccess(true);
-      setTimeout(() => setShowSuccess(false), 3500);
-    }
+
+    setTimeout(() => {
+      navigate("/pago");
+    }, 1200);
   };
 
   // --- Guardar dirección en la base de datos ---
