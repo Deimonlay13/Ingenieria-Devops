@@ -21,34 +21,30 @@ type ItemCarrito = {
     carta: { id: number; nombre: string; precio: number; img: string };
     cantidad: number;
 };
-// ✅ Exportar la función para guardar venta
+
 export async function guardarVenta(cart: ItemCarrito[], totalAmount: number) {
     try {
         const idUsuario = localStorage.getItem("clienteID");
         if (!idUsuario) throw new Error("Usuario no encontrado");
 
-        // 1️⃣ Crear la venta
-        const ventaRes = await axios.post(`${API_URL}/venta`, {
+        const ventaData = {
             idUsuario: Number(idUsuario),
-            total: totalAmount
-        });
-
-        const idVenta = ventaRes.data.idVenta; // Asegúrate que tu DTO devuelva este campo
-
-        // 2️⃣ Crear cada detalle
-        for (const item of cart) {
-            await axios.post(`${API_URL}/detalle-venta`, {
-                idVenta,
-                idCarta: item.carta.id,
+            total: totalAmount,
+            detalles: cart.map(item => ({
+                idProducto: item.carta.id,
                 cantidad: item.cantidad,
                 precio: item.carta.precio
-            });
-        }
+            }))
+        };
 
-        console.log("Venta y detalles guardados correctamente");
+        const res = await axios.post(`${API_URL}/venta`, ventaData);
+
+        console.log("Venta completa guardada:", res.data);
+        return res.data;
 
     } catch (error) {
         console.error("Error guardando la venta:", error);
-        throw error; // Para poder manejarlo desde el componente
+        throw error;
     }
-};
+}
+

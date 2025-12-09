@@ -36,12 +36,13 @@ export const CartDetails = () => {
                   -
                 </button>
                 <span>{item.cantidad}</span>
-                <button
-                  className="btn btn-sm btn-outline-secondary"
-                  onClick={() => increaseItem(item.carta.id)}
-                >
-                  +
-                </button>
+              <button
+  className="btn btn-sm btn-outline-secondary"
+  onClick={() => increaseItem(item.carta.id)}
+  disabled={item.cantidad >= item.carta.stock}
+>
+  +
+</button>
 
                 <div className="ms-3 fw-bold">
                   ${item.carta.precio * item.cantidad}
