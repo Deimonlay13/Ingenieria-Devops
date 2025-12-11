@@ -5,6 +5,7 @@ import {
   Offcanvas,
   Figure,
   Dropdown,
+  Modal,
 } from "react-bootstrap";
 import { NavLink, useNavigate } from "react-router-dom";
 import { useCart } from "../../cartas/context/CartContext";
@@ -20,7 +21,14 @@ const Header = () => {
   const [user, setUser] = useState<{ nombre: string; apellido: string } | null>(
     null
   );
+  const [showLoginModal, setShowLoginModal] = useState(false);
 
+
+  const handleForceLogin = () => {
+    setShowLoginModal(false);
+    navigate("/login");
+  };
+  
   const navigate = useNavigate();
 
   const handleComprar = () => {
@@ -153,12 +161,45 @@ const Header = () => {
           <CartDetails />
           <button
             className="btn btn-success btn-lg w-100 mt-4"
-            onClick={handleComprar}
+            onClick={() => {
+              if (!user) {
+                // usuario NO logueado → mostrar modal
+                setShowLoginModal(true);
+                return;
+              }
+              handleComprar();
+            }}
           >
             Comprar
           </button>
         </Offcanvas.Body>
       </Offcanvas>
+      <Modal
+        show={showLoginModal}
+        onHide={() => setShowLoginModal(false)}
+        centered
+      >
+        <Modal.Header closeButton>
+          <Modal.Title>Inicia sesión</Modal.Title>
+        </Modal.Header>
+
+        <Modal.Body>
+          Para completar tu compra, primero debes iniciar sesión.
+        </Modal.Body>
+
+        <Modal.Footer>
+          <button
+            className="btn btn-secondary"
+            onClick={() => setShowLoginModal(false)}
+          >
+            Cancelar
+          </button>
+
+          <button className="btn btn-primary" onClick={handleForceLogin}>
+            Ir al Login
+          </button>
+        </Modal.Footer>
+      </Modal>
     </Navbar>
   );
 };
