@@ -18,13 +18,13 @@ export const CartDetails = () => {
             >
               <div className="d-flex align-items-center gap-2">
                 <img
-                  src={item.carta.image}
-                  alt={item.carta.name}
+                  src={item.carta.img}
+                  alt={item.carta.nombre}
                   style={{ width: 48, height: 48, objectFit: "cover" }}
                 />
                 <div>
-                  <div>{item.carta.name}</div>
-                  <small>${item.carta.price} c/u</small>
+                  <div>{item.carta.nombre}</div>
+                  <small>${item.carta.precio} c/u</small>
                 </div>
               </div>
 
@@ -36,15 +36,16 @@ export const CartDetails = () => {
                   -
                 </button>
                 <span>{item.cantidad}</span>
-                <button
-                  className="btn btn-sm btn-outline-secondary"
-                  onClick={() => increaseItem(item.carta.id)}
-                >
-                  +
-                </button>
+              <button
+  className="btn btn-sm btn-outline-secondary"
+  onClick={() => increaseItem(item.carta.id)}
+  disabled={item.cantidad >= item.carta.stock}
+>
+  +
+</button>
 
                 <div className="ms-3 fw-bold">
-                  ${item.carta.price * item.cantidad}
+                  ${item.carta.precio * item.cantidad}
                 </div>
 
                 <button

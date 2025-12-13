@@ -1,0 +1,139 @@
+[
+    {
+        "grupo": "TWICE",
+        "miembros": [
+            {
+                "nombre": "Nayeon",
+                "albums": [
+                    {
+                        "nombre": "The Story Begins",
+                        "imagenes": [
+                            {
+                                "id": 1,
+                                "imagen": "https://i.pinimg.com/736x/be/c2/fb/bec2fb8faf364dc2a6af4c4c903e3a63.jpg"
+                            },
+                            {
+                                "id": 2,
+                                "imagen": "https://i.pinimg.com/736x/2d/18/12/2d1812807c979bc09b20990aa05354a2.jpg"
+                            }
+                        ]
+                    },
+                    {
+                        "nombre": "Signal",
+                        "imagenes": [
+                            {
+                                "id": 1,
+                                "imagen": "https://i.pinimg.com/736x/2d/89/15/2d8915cc86722465341583a9f7a88fe5.jpg"
+                            },
+                            {
+                                "id": 2,
+                                "imagen": "https://i.pinimg.com/736x/86/61/c6/8661c691d52a016e32db296503a6c667.jpg"
+                            }
+                        ]
+                    },
+                    {
+                        "nombre": "What is love?",
+                        "imagenes": [
+                            {
+                                "id": 1,
+                                "imagen": "https://i.pinimg.com/736x/80/60/84/806084711b0ab3ed374e41187e0d9759.jpg"
+                            },
+                            {
+                                "id": 2,
+                                "imagen": "https://i.pinimg.com/736x/b1/84/d8/b184d851aed583263a0b2b210d0b4f6d.jpg"
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "nombre": "Sana",
+                "albums": [
+                    {
+                        "nombre": "The Story Begins",
+                        "imagenes": [
+                            {
+                                "id": 1,
+                                "imagen": "https://i.pinimg.com/736x/41/af/32/41af32861fb0b5614697198c7c456522.jpg"
+                            },
+                            {
+                                "id": 2,
+                                "imagen": "https://i.pinimg.com/736x/37/da/61/37da61fa5f3699377ee1aa6adc5d9533.jpg"
+                            }
+                        ]
+                    },
+                    {
+                        "nombre": "Signal",
+                        "imagenes": [
+                            {
+                                "id": 1,
+                                "imagen": "https://i.pinimg.com/736x/2c/0b/4f/2c0b4f1072f43e2e220dad4cb33360b1.jpg"
+                            },
+                            {
+                                "id": 2,
+                                "imagen": "https://i.pinimg.com/736x/08/94/76/08947652c90c8e528d004b7cdfe5bd66.jpg"
+                            }
+                        ]
+                    },
+                    {
+                        "nombre": "What is love?",
+                        "imagenes": [
+                            {
+                                "id": 1,
+                                "imagen": "https://i.pinimg.com/736x/dc/9a/ab/dc9aaba9c33537de66405fc912e2e4b5.jpg"
+                            },
+                            {
+                                "id": 2,
+                                "imagen": "https://i.pinimg.com/736x/08/94/76/08947652c90c8e528d004b7cdfe5bd66.jpg"
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "nombre": "Dahyun",
+                "albums": [
+                    {
+                        "nombre": "The Story Begins",
+                        "imagenes": [
+                            {
+                                "id": 1,
+                                "imagen": "https://i.pinimg.com/736x/0e/cd/a9/0ecda9ceb77afaf4f3ca2675c7d18aa6.jpg"
+                            },
+                            {
+                                "id": 2,
+                                "imagen": "https://i.pinimg.com/736x/b7/1c/dd/b71cdd5de4903dd9764a685821e97376.jpg"
+                            }
+                        ]
+                    },
+                    {
+                        "nombre": "Signal",
+                        "imagenes": [
+                            {
+                                "id": 1,
+                                "imagen": "https://i.pinimg.com/736x/40/ce/31/40ce3161ad60518e78ec70d4edd5a283.jpg"
+                            },
+                            {
+                                "id": 2,
+                                "imagen": "https://i.pinimg.com/736x/af/cb/c2/afcbc28af404936d70fc919649fb1008.jpg"
+                            }
+                        ]
+                    },
+                    {
+                        "nombre": "What is love?",
+                        "imagenes": [
+                            {
+                                "id": 1,
+                                "imagen": "https://i.pinimg.com/736x/e5/d6/7a/e5d67a64a5fa3f55253d2c0fffd2b709.jpg"
+                            },
+                            {
+                                "id": 2,
+                                "imagen": "https://i.pinimg.com/736x/ca/f0/18/caf018afd4707621d7b8a6fa36b7d334.jpg"
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    }
+]
