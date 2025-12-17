@@ -22,9 +22,10 @@ interface CartContextType {
 describe("Counter Component", () => {
   const mockCarta: CartaPokemon = {
     id: "1",
-    name: "Pikachu",
-    image: "pikachu.png",
-    price: 100,
+    nombre: "Pikachu",
+    img: "pikachu.png",
+    precio: 2000,
+    stock: 100,
   };
 
   let addToCartSpy: jasmine.Spy<

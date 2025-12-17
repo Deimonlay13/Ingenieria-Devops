@@ -1,121 +1,149 @@
-import { createRoot } from "react-dom/client";
-import { Formulario } from "../src/formulario/components/Formulario";
-import "bootstrap/dist/css/bootstrap.min.css";
+import {
+  render,
+  screen,
+  fireEvent,
+  waitFor,
+  cleanup,
+} from "@testing-library/react";
 import { act } from "react";
+import { MemoryRouter } from "react-router-dom";
+import { CartProvider } from "../src/cartas/context/CartContext";
+import { Formulario } from "../src/formulario/components/Formulario";
 
+describe("Formulario Component", () => {
+  beforeEach(async () => {
+    // Mock de Fetch para la carga inicial de dirección y el guardado
+    spyOn(window, "fetch").and.callFake((url) => {
+      if (url.toString().includes("direccion/usuario")) {
+        return Promise.resolve({
+          ok: true,
+          json: () =>
+            Promise.resolve({
+              calle: "Palma",
+              numero: "123",
+              region: "Metropolitana",
+              comuna: "Santiago",
+            }),
+        } as Response);
+      }
+      return Promise.resolve({
+        ok: true,
+        json: () => Promise.resolve({}),
+      } as Response);
+    });
 
-describe("Formulario", () => {
-  let container: HTMLDivElement;
+    // Mock de LocalStorage
+    storageMock();
+    localStorage.setItem("clienteID", "123");
 
-  beforeEach(() => {
-    container = document.createElement("div");
-    document.body.appendChild(container);
-    act(() => {
-      createRoot(container).render(<Formulario />);
+    await act(async () => {
+      render(
+        <MemoryRouter>
+          <CartProvider>
+            <Formulario />
+          </CartProvider>
+        </MemoryRouter>
+      );
     });
   });
 
   afterEach(() => {
-    document.body.removeChild(container);
+    cleanup();
+    localStorage.clear();
   });
 
-  it("renderiza el título correctamente", () => {
-    const title = container.querySelector(".section-title");
-    expect(title?.textContent).toContain("Contacto");
+  it("renderiza el título y los campos básicos", () => {
+    expect(
+      screen.getByText(/Completa tus datos para procesar tu compra/i)
+    ).toBeTruthy();
+    expect(screen.getByPlaceholderText("correo@ejemplo.com")).toBeTruthy();
+    expect(screen.getByPlaceholderText("Nombre...")).toBeTruthy();
   });
 
-  it("renderiza el campo de nombre", () => {
-    const nombreInput = container.querySelector("input[placeholder='Rodrigo']");
-    expect(nombreInput).not.toBeNull();
-  });
-
-  it("muestra mensaje de éxito al enviar formulario válido", (done) => {
-    act(() => {
-      const form = container.querySelector("form") as HTMLFormElement;
-      const nombre = container.querySelector("input[placeholder='Rodrigo']") as HTMLInputElement;
-      const email = container.querySelector("input[type='email']") as HTMLInputElement;
-      const telefono = container.querySelector("input[type='tel']") as HTMLInputElement;
-      const motivo = container.querySelector("select") as HTMLSelectElement;
-      const asunto = container.querySelector("input[placeholder='asunto...']") as HTMLInputElement;
-      const mensaje = container.querySelector("textarea") as HTMLTextAreaElement;
-
-      nombre.value = "Ash";
-      email.value = "ash@pokemon.com";
-      telefono.value = "+56912345678";
-      motivo.value = "consulta";
-      asunto.value = "Gengar";
-      mensaje.value = "¿Dónde lo encuentro?";
-
-      nombre.dispatchEvent(new Event("input", { bubbles: true }));
-      email.dispatchEvent(new Event("input", { bubbles: true }));
-      telefono.dispatchEvent(new Event("input", { bubbles: true }));
-      motivo.dispatchEvent(new Event("change", { bubbles: true }));
-      asunto.dispatchEvent(new Event("input", { bubbles: true }));
-      mensaje.dispatchEvent(new Event("input", { bubbles: true }));
-
-      form.dispatchEvent(new Event("submit", { bubbles: true }));
+  it("marca el campo de correo como inválido si el formato es incorrecto", async () => {
+    const correoInput = screen.getByPlaceholderText(
+      "correo@ejemplo.com"
+    ) as HTMLInputElement;
+    const submitBtn = screen.getByRole("button", {
+      name: /continuar con el pago/i,
     });
 
-    setTimeout(() => {
-      const successMsg = container.querySelector(".alert-success");
-      expect(successMsg?.textContent).toContain("Mensaje enviado con éxito");
-      done();
-    }, 150);
-  });
-
-  it("marca el campo email como inválido si no contiene '@'", (done) => {
-  const form = container.querySelector("form") as HTMLFormElement;
-  const email = container.querySelector("input[type='email']") as HTMLInputElement;
-
-  act(() => {
-    email.value = "correoSinArroba.com";
-    email.dispatchEvent(new Event("input", { bubbles: true }));
-    form.dispatchEvent(new Event("submit", { bubbles: true }));
-  });
-
-  setTimeout(() => {
-    expect(email.classList.contains("is-invalid")).toBe(false);
-    done();
-  }, 100);
-});
-
-it("ejecuta setShowSuccess(false) y setValidated(true) si el formulario es inválido", (done) => {
-  const form = container.querySelector("form") as HTMLFormElement;
-  const email = container.querySelector("input[type='email']") as HTMLInputElement;
-
-  act(() => {
-    email.value = "correoSinArroba.com"; 
-    email.dispatchEvent(new Event("input", { bubbles: true }));
-    form.dispatchEvent(new Event("submit", { bubbles: true }));
-  });
-
-  setTimeout(() => {
-   
-    const successMsg = container.querySelector(".alert-success");
-    expect(successMsg).toBeNull(); 
-
-    
-    expect(email.classList.contains("is-invalid")).toBe(false); 
-
-    done();
-  }, 100);
-});
-
-  it("no muestra mensaje de éxito si el formulario está vacío", (done) => {
-    act(() => {
-      const form = container.querySelector("form") as HTMLFormElement;
-      form.dispatchEvent(new Event("submit", { bubbles: true }));
+    await act(async () => {
+      fireEvent.change(correoInput, { target: { value: "correoSinArroba" } });
+      fireEvent.click(submitBtn);
     });
 
-    setTimeout(() => {
-      const successMsg = container.querySelector(".alert-success");
-      expect(successMsg).toBeNull();
-      done();
-    }, 100);
+    // En Bootstrap/React-Bootstrap la validación añade clases al input
+    expect(correoInput.checkValidity()).toBeFalse();
+  });
+
+  it("muestra mensaje de éxito al enviar formulario válido", async () => {
+    // Rellenar campos obligatorios
+    fireEvent.change(screen.getByPlaceholderText("correo@ejemplo.com"), {
+      target: { value: "ash@pokemon.com" },
+    });
+    fireEvent.change(screen.getByPlaceholderText("Nombre..."), {
+      target: { value: "Ash" },
+    });
+    fireEvent.change(screen.getByPlaceholderText("Apellidos..."), {
+      target: { value: "Ketchum" },
+    });
+    fireEvent.change(screen.getByPlaceholderText("11.222.333-4"), {
+      target: { value: "11.222.333-4" },
+    });
+    fireEvent.change(screen.getByPlaceholderText("Calle / Avenida..."), {
+      target: { value: "Palma" },
+    });
+    fireEvent.change(screen.getByPlaceholderText("Número..."), {
+      target: { value: "123" },
+    });
+
+    // Simular el check de términos y condiciones
+    const check = screen.getByRole("checkbox");
+    fireEvent.click(check);
+
+    const submitBtn = screen.getByRole("button", {
+      name: /continuar con el pago/i,
+    });
+
+    await act(async () => {
+      fireEvent.click(submitBtn);
+    });
+
+    // Esperar a que aparezca la alerta (maneja el setTimeout de 1200ms)
+    await waitFor(
+      () => {
+        const alert = screen.getByText(/Datos ingresados correctamente/i);
+        expect(alert).toBeTruthy();
+      },
+      { timeout: 2000 }
+    );
+  });
+
+  it("muestra un modal de éxito cuando se guarda la dirección", async () => {
+    const saveBtn = screen.getByRole("button", { name: /guardar dirección/i });
+
+    await act(async () => {
+      fireEvent.click(saveBtn);
+    });
+
+    // Verificamos que aparezca el Modal por su contenido, no por el espía de la función
+    await waitFor(() => {
+      expect(
+        screen.getByText(/La dirección se ha guardado correctamente/i)
+      ).toBeTruthy();
+    });
   });
 });
 
-
-
-
-
+// Ayudante para mockear localStorage si no existe en el entorno de Karma
+function storageMock() {
+  let storage: { [key: string]: string } = {};
+  spyOn(localStorage, "getItem").and.callFake((key) => storage[key] || null);
+  spyOn(localStorage, "setItem").and.callFake((key, value) => {
+    storage[key] = value;
+  });
+  spyOn(localStorage, "clear").and.callFake(() => {
+    storage = {};
+  });
+}

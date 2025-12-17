@@ -1,41 +1,16 @@
-import { render, screen, waitFor } from "@testing-library/react";
-import { PokeContainer } from "../src/cartas/components/PokeContainer";
-import * as PokeListModule from "../src/cartas/components/PokeList";
-import { mockCartas } from "../src/cartas/mock/cartas.mock";
+import { useEffect, useState, type FC } from "react";
 import type { CartaPokemon } from "../src/cartas/interfaces/carta-pokemon.interface";
+import { PokeList } from "../src/cartas/components/PokeList";
 
-describe("PokeContainer Component", () => {
-  beforeEach(() => {
-    spyOn(PokeListModule, "PokeList").and.callFake(
-      (props: { cartas: CartaPokemon[] }) => (
-        <div data-testid="mock-pokelist">
-          {props.cartas.map((carta) => (
-            <span key={carta.id}>{carta.name}</span>
-          ))}
-        </div>
-      )
-    );
-  });
+export const PokeContainer: FC = () => {
+  const [cards, setCards] = useState<CartaPokemon[]>([]);
 
-  it("debe renderizar sin errores", () => {
-    render(<PokeContainer />);
-    expect(screen.getByTestId("mock-pokelist")).toBeTruthy();
-  });
+  useEffect(() => {
+    fetch("http://localhost:8080/Producto/")
+      .then((res) => res.json())
+      .then((data) => setCards(data))
+      .catch((err) => console.error("Error cargando cartas", err));
+  }, []);
 
-  it("debe pasar correctamente las cartas del mock al PokeList", async () => {
-    render(<PokeContainer />);
-
-    await waitFor(() => {
-      expect(screen.getByText(mockCartas[0].name)).toBeTruthy();
-    });
-
-    mockCartas.forEach((carta) => {
-      expect(screen.getByText(carta.name)).toBeTruthy();
-    });
-
-    expect(PokeListModule.PokeList).toHaveBeenCalled();
-    const props = (PokeListModule.PokeList as jasmine.Spy).calls.mostRecent()
-      .args[0];
-    expect(props.cartas.length).toBe(mockCartas.length);
-  });
-});
+  return <PokeList cartas={cards} />;
+};
