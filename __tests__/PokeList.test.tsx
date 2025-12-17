@@ -12,15 +12,17 @@ describe("PokeList Component", () => {
   const mockCartas: CartaPokemon[] = [
     {
       id: "1",
-      name: "Pikachu",
-      image: "pikachu.png",
-      price: 500,
+      nombre: "Pikachu",
+      img: "pikachu.png",
+      precio: 500,
+      stock: 4
     },
     {
       id: "2",
-      name: "Charmander",
-      image: "charmander.png",
-      price: 600,
+      nombre: "Charmander",
+      img: "charmander.png",
+      precio: 600,
+      stock: 3
     },
   ];
 
