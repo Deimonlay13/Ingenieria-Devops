@@ -12,8 +12,8 @@ Proyecto frontend desarrollado en React para la visualización y gestión de car
 ### 🃏 Cartas
 ![Cartas](./screenshots/cartas.png)
 
-### 🛒 Carrito
-![Carrito](./screenshots/carrito.png)
+### Noticias
+![Noticias](./screenshots/noticias.png)
 
 Incluye funcionalidades como:
 
