@@ -2,6 +2,36 @@ import { useRef, useState, type ChangeEvent, type FC, type MouseEvent } from "re
 import type { CartaPokemon } from "../interfaces/carta-pokemon.interface";
 import { Counter } from "../../counter/Counter";
 import "./pokeList.css"
+/** Borde / zona central estilo carta según tipo (texto API o español) */
+function tcgVariantClass(tipo?: string): string {
+  const raw = (tipo ?? "").trim().toLowerCase();
+  const rules: [RegExp, string][] = [
+    [/grass|planta|hierba/, "tcg-variant--grass"],
+    [/fire|fuego/, "tcg-variant--fire"],
+    [/water|agua/, "tcg-variant--water"],
+    [/electric|lightning|eléctrico|electrico|rayo/, "tcg-variant--electric"],
+    [/psychic|ps[ií]quico/, "tcg-variant--psychic"],
+    [/fighting|lucha|combate/, "tcg-variant--fighting"],
+    [/dark|darkness|siniestro|oscuro/, "tcg-variant--dark"],
+    [/metal|steel|acero/, "tcg-variant--metal"],
+    [/dragon|drag[oó]n/, "tcg-variant--dragon"],
+    [/fairy|had[a]/, "tcg-variant--fairy"],
+    [/ice|hielo/, "tcg-variant--ice"],
+    [/poison|veneno/, "tcg-variant--poison"],
+    [/bug|bicho|insecto/, "tcg-variant--bug"],
+    [/flying|volador|volad/, "tcg-variant--flying"],
+    [/ground|tierra/, "tcg-variant--ground"],
+    [/rock|roca/, "tcg-variant--rock"],
+    [/ghost|fantasma/, "tcg-variant--ghost"],
+    [/normal|colorless|incoloro/, "tcg-variant--colorless"],
+    [/pokemon/, "tcg-variant--colorless"],
+  ];
+  for (const [re, cls] of rules) {
+    if (re.test(raw)) return cls;
+  }
+  return "tcg-variant--grass";
+}
+
 interface Props {
   cartas: CartaPokemon[];
   cartaDestacada?: CartaPokemon;
@@ -170,30 +200,65 @@ export const PokeList: FC<Props> = ({
       {!loading && cartas.length === 0 && (
         <p className="text-center fw-semibold">No hay cartas para ese filtro.</p>
       )}
-      <div className="row g-3 ">
-        {cartas.map((carta) => (
-          <div key={carta.id} className="col-12 col-sm-6 col-md-3 col-lg-3">
-            <div className="card h-100 text-center card-translucent card-pokemon">
-              <div className="card-image-wrap">
-                {carta.tipo && <span className="badge rounded-pill text-bg-dark badge-tipo">{carta.tipo}</span>}
-                <img
-                  src={carta.img}
-                  className="card-img-top"
-                  alt={carta.nombre}
-                  loading="lazy"
-                />
-              </div>
-              <div className="card-body p-3 d-flex flex-column">
-                <h5 className="card-title card-title-fixed">{carta.nombre}</h5>
-                <div className="card-meta mb-3">
-                  <p className="card-text mb-1"><strong>Precio:</strong> ${carta.precio}</p>
-                  <p className="card-text mb-0"><strong>Stock:</strong> {carta.stock}</p>
+      <div className="row g-3">
+        {cartas.map((carta) => {
+          const variantClass = tcgVariantClass(carta.tipo);
+          const shortId = (carta.id ?? "").replace(/\W/g, "").slice(-6) || "—";
+          return (
+            <div key={carta.id} className="col-12 col-sm-6 col-md-4 col-lg-3">
+              <article className={`tcg-card-shell card h-100 card-translucent card-pokemon ${variantClass}`}>
+                <div className="tcg-card">
+                  <div className="tcg-card__plate">
+                    <header className="tcg-card__header">
+                      <h3 className="tcg-card__name">{carta.nombre}</h3>
+                      <div className="tcg-card__header-right">
+                        <span className="tcg-card__stock-val">{carta.stock}</span>
+                        <span className="tcg-card__stock-lbl">STK</span>
+                        <span
+                          className="tcg-card__type-orb"
+                          title={carta.tipo ?? "Tipo"}
+                          aria-hidden
+                        />
+                      </div>
+                    </header>
+
+                    <div className="tcg-card__art-wrap">
+                      <div className="tcg-card__art-frame">
+                        <img
+                          src={carta.img}
+                          className="tcg-card__img"
+                          alt={carta.nombre}
+                          loading="lazy"
+                        />
+                        <div className="tcg-card__overlay">
+                          <Counter carta={carta} variant="overlay" />
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="tcg-card__ribbon">Pokémon TCG · tienda</div>
+
+                    <div className="tcg-card__mid">
+                      <div className="tcg-card__rule">
+                        <span className="tcg-card__rule-name">Precio unitario</span>
+                        <span className="tcg-card__rule-cost">${carta.precio}</span>
+                      </div>
+                      <p className="tcg-card__rule-desc">
+                        Hasta {carta.stock} unidades disponibles. Usa los botones al pasar el cursor sobre la
+                        carta.
+                      </p>
+                    </div>
+
+                    <footer className="tcg-card__footer">
+                      <span className="tcg-card__foo-id">#{shortId}</span>
+                      <span className="tcg-card__foo-tipo">{carta.tipo ?? "—"}</span>
+                    </footer>
+                  </div>
                 </div>
-                <Counter carta={carta} />
-              </div>
+              </article>
             </div>
-          </div>
-        ))}
+          );
+        })}
       </div>
     </div>
   );
