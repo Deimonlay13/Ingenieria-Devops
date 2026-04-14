@@ -165,21 +165,43 @@ export const PokeList: FC<Props> = ({
       <div className="card p-3 mb-4 card-translucent">
         <div className="row g-2 align-items-end">
           <div className="col-12 col-md-5 col-lg-4">
-            <label className="form-label mb-1">Buscar carta</label>
-            <input
-              className="form-control"
-              placeholder="Ej: pikachu, charizard..."
-              value={filtros.filtroTexto}
-              onChange={onTextoChange}
-            />
+            <label className="form-label mb-1" htmlFor="filtro-buscar-carta">
+              Buscar carta
+            </label>
+            <div className="input-group filter-input-group">
+              <span className="input-group-text" aria-label="Buscar">
+                <i className="bi bi-search" aria-hidden />
+              </span>
+              <input
+                id="filtro-buscar-carta"
+                type="search"
+                className="form-control"
+                placeholder="Ej: pikachu, charizard..."
+                value={filtros.filtroTexto}
+                onChange={onTextoChange}
+                autoComplete="off"
+              />
+            </div>
           </div>
           <div className="col-6 col-md-3 col-lg-3">
-            <label className="form-label mb-1">Orden precio</label>
-            <select className="form-select" value={filtros.ordenPrecio} onChange={onOrdenChange}>
-              <option value="ninguno">Sin orden</option>
-              <option value="asc">Menor a mayor</option>
-              <option value="desc">Mayor a menor</option>
-            </select>
+            <label className="form-label mb-1" htmlFor="filtro-orden-precio">
+              Orden por precio
+            </label>
+            <div className="input-group filter-input-group">
+              <span className="input-group-text" aria-label="Ordenar por precio">
+                <i className="bi bi-currency-dollar" aria-hidden />
+              </span>
+              <select
+                id="filtro-orden-precio"
+                className="form-select"
+                value={filtros.ordenPrecio}
+                onChange={onOrdenChange}
+              >
+                <option value="ninguno">Sin orden</option>
+                <option value="asc">Menor a mayor</option>
+                <option value="desc">Mayor a menor</option>
+              </select>
+            </div>
           </div>
           <div className="col-6 col-md-4 col-lg-2 d-flex align-items-end justify-content-md-end ms-lg-auto">
             <span className="badge text-bg-primary tipo-filter-count">{filtros.total}</span>
