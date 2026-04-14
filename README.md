@@ -1,119 +1,107 @@
-# POKECARD STORE
+# 🃏 Ingenieria DevOps - Pokémon TCG Store
 
-## Descripción
-PokeCardStore es una aplicación web desarrollada en React + TypeScript que permite a los usuarios explorar una tienda de cartas Pokémon, visualizar cada carta  y agregarlas a un carrito de compras.
+## 📌 Descripción
 
-Además, cuenta con un diseño responsive basado en Bootstrap, asegurando una visualización correcta en diferentes dispositivos.
+Proyecto frontend desarrollado en React para la visualización y gestión de cartas Pokémon TCG.
 
-## Visuales
+## 📸 Screenshots
 
-![Bienvenida](./src/assets/bienvenida.png)
-![Cartas](./src/assets/cartas.png)
-![Noticias](./src/assets/noticias.png)
-![Formulario](./src/assets/contacto.png)
-![Carrito](./src/assets/carrito.png)
+### 🏠 Home
+![Home](./screenshots/home.png)
 
-## Uso 
-Una vez que la aplicación esté en ejecución, podrás navegar por las diferentes secciones:
+### 🃏 Cartas
+![Cartas](./screenshots/cartas.png)
 
-### 🛒 Tienda de Cartas
-- Visualiza el catálogo de cartas Pokémon disponibles.
-- Agrega cartas al carrito utilizando los botones **+** y **-** para ajustar cantidades.
-- Puedes ver los detalles del carrito en todo momento en la parte superior.
+### 🛒 Carrito
+![Carrito](./screenshots/carrito.png)
 
-### 📰 Noticias Pokémon
-- Revisa una sección de noticias relacionadas con el mundo Pokémon.
-- Cada noticia incluye título, imagen, descripción y un enlace que abre en una nueva pestaña.
+Incluye funcionalidades como:
 
-### ✉️ Formulario de Contacto
-- Completa el formulario para enviar tus consultas.
-- Los campos se validan antes de permitir el envío.
-- Al enviar, se mostrará un mensaje confirmando la acción.
+- Visualización de cartas Pokémon
+- Carrito de compras con persistencia en localStorage
+- Consumo de API externa (TCGdex)
+- Interfaz moderna estilo tienda gaming
 
-### Prerrequisitos ✅
-Antes de instalar y ejecutar el proyecto, asegúrate de contar con lo siguiente:
+---
 
-- **Node.js** v16 o superior  
-  Descarga: https://nodejs.org/
+## ⚙️ Instalación
 
-- **npm** como gestor de paquetes (instalado junto con Node.js)
-
-- Navegador web actualizado (Chrome, Edge, Firefox, etc.)
-
-### Instalación 🔧
-A continuación, se presenta una guía paso a paso para configurar el entorno de desarrollo y realizar la instalación de todas las dependencias necesarias:
-
-Clona este repositorio:
-
-```bash
-git clone https://github.com/Deimonlay13/PokeCardStore.git
-```
-Accede a la carpeta del proyecto:
-```bash
-cd PokeCardStore
-```
-Instala las dependencias:
-```bash
+``bash
+git clone https://github.com/Deimonlay13/Ingenieria-Devops.git
+cd Ingenieria-Devops
 npm install
-```
-Inicia el servidor de desarrollo:
-```bash
 npm run dev
-```
+🧠 Modelo de Branching
 
-El proyecto estara disponible en:
-- http://localhost:5173/
+Se utilizó una estrategia basada en GitFlow simplificado:
 
+main → rama estable (producción)
+develop → integración de cambios
+fix/* → correcciones o mejoras
+chore/* → tareas técnicas (ej: CI)
+🔁 Flujo de trabajo
+Crear rama desde develop
+Implementar cambios
+Realizar commit
+Subir cambios al repositorio
+Crear Pull Request hacia develop
+Revisar y hacer merge
+Integración final hacia main
+🏷️ Convención de commits
 
-## Testing 🧪 
-Para  testear se utilizaron las siguientes herramientas:
-- Jasmine — Framework de pruebas
-- Karma — Test runner
-- karma-coverage — Reportes de cobertura
+Se utilizó una convención basada en prefijos:
 
-Para ejecutar las pruebas unitarias:
-```bash
-npm test
-```
+feat: nuevas funcionalidades
+fix: correcciones
+chore: tareas técnicas
+docs: documentación
 
-Para ver el reporte de cobertura:
-```bash
-npm run test:coverage
-```
+Ejemplos:
 
+feat: agrega carrito local
+fix: corrige render de cartas
+chore: agrega workflow CI
+⚡ GitHub Actions (CI)
 
-## Despliegue 📦
-En el siguiente enlace podras ver el proyecto: 
+Se implementó integración continua mediante:
 
-https://poke-card-store-gamma.vercel.app/
+.github/workflows/ci.yml
+Se ejecuta en:
+push a develop
+pull request a main
+Tareas realizadas:
+instalación de dependencias
+build del proyecto
+🌐 API utilizada
 
-## Construido Con 🛠️
-**Frameworks y Librerías principales**
-- React 19 — Librería para construcción de interfaces
-- React Router DOM 7 — Navegación y enrutamiento
-- React Bootstrap — Componentes UI basados en Bootstrap
-- Bootstrap 5 — Estilos y diseño responsivo
+Se utilizó la API pública:
 
-**Herramientas de desarrollo**
-- Vite — Servidor de desarrollo y bundler
-- TypeScript — Tipado estático para JavaScript
+https://api.tcgdex.net
 
-**Testing**
-- Jasmine — Framework de tests
-- Karma — Test runner en navegador
-- karma-coverage — Reporte de cobertura
+Para obtener información real de cartas Pokémon TCG.
 
-**Compilación y transformación**
-- Babel — Transpilación de JS/TS/React
-- Webpack — Empaquetado para pruebas (karma)
-  
-## Versionado 📌
+🧪 Manejo de backend caído
 
-Usamos [Git](https://git-scm.com) para el versionado.
+Se implementó un sistema de fallback con datos mock para asegurar el funcionamiento del proyecto en caso de fallos en la API.
 
+🤖 Uso de Inteligencia Artificial
 
+Se utilizó IA (ChatGPT / Cursor) como apoyo en:
 
-##  Autores / Contribuidores 👥
-[Geraldine Becerra](https://github.com/GeraldineBecerra) - [Luis Muñoz](https://github.com/Luis-Munoz-soto) -
-[Diego Pizarro](https://github.com/Deimonlay13) 😊
+diseño de interfaz
+configuración de CI
+integración de API
+mejoras de código
+🚀 Estado del proyecto
+
+✔ Aplicación funcional
+✔ UI mejorada
+✔ Integración con API
+✔ CI configurado
+✔ Flujo de trabajo con Git implementado
+
+👨‍💻 Autor
+
+Diego Pizarro
+
 
