@@ -755,6 +755,34 @@
   font-weight: 600;
 }
 
+/* Búsqueda y orden: iconos en input-group */
+.filter-input-group .input-group-text {
+  background-color: #0b1324;
+  border: 1px solid rgba(148, 163, 184, 0.25);
+  border-right: 0;
+  color: #e5b15b;
+  padding-inline: 0.75rem;
+}
+
+.filter-input-group .input-group-text i {
+  font-size: 1.05rem;
+}
+
+.filter-input-group .form-control,
+.filter-input-group .form-select {
+  border-left: 0;
+}
+
+.filter-input-group:focus-within .input-group-text {
+  border-color: #facc15;
+  color: #fde047;
+}
+
+.card-translucent .filter-input-group:focus-within .form-control,
+.card-translucent .filter-input-group:focus-within .form-select {
+  border-color: #facc15;
+}
+
 .form-control,
 .form-select {
   background-color: #0b1324;
