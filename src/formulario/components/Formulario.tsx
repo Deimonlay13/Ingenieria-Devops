@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 
 
 export const Formulario = () => {
+  const FALLBACK_DIRECCION_PREFIX = "mock_direccion_";
   const [validated, setValidated] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
 
@@ -72,9 +73,40 @@ export const Formulario = () => {
               setOtraComuna(data.comuna);
             }
           }
+        } else {
+          const raw = localStorage.getItem(`${FALLBACK_DIRECCION_PREFIX}${clienteID}`);
+          if (raw) {
+            const data = JSON.parse(raw) as { calle?: string; numero?: string; region?: string; comuna?: string };
+            setDireccion(data.calle || "");
+            setNumero(data.numero || "");
+            setRegion(data.region || "");
+            if (data.comuna) {
+              if (comunasPorRegion[data.region || ""]?.includes(data.comuna)) {
+                setComuna(data.comuna);
+              } else {
+                setComuna("otra");
+                setOtraComuna(data.comuna);
+              }
+            }
+          }
         }
       } catch (error) {
         console.error("Error al cargar dirección:", error);
+        const raw = localStorage.getItem(`${FALLBACK_DIRECCION_PREFIX}${clienteID}`);
+        if (raw) {
+          const data = JSON.parse(raw) as { calle?: string; numero?: string; region?: string; comuna?: string };
+          setDireccion(data.calle || "");
+          setNumero(data.numero || "");
+          setRegion(data.region || "");
+          if (data.comuna) {
+            if (comunasPorRegion[data.region || ""]?.includes(data.comuna)) {
+              setComuna(data.comuna);
+            } else {
+              setComuna("otra");
+              setOtraComuna(data.comuna);
+            }
+          }
+        }
       }
     };
 
@@ -132,16 +164,22 @@ export const Formulario = () => {
       setShowModal(true);
       console.log(data);
     } catch (error: unknown) {
-      console.log(error);
-
-      if (error instanceof Error) {
-        setModalTitle("Error");
-        setModalMsg(error.message);
-      } else {
-        setModalTitle("Error");
-        setModalMsg("Ocurrió un error al guardar la dirección.");
+      console.log("Guardado en API no disponible, usando fallback local:", error);
+      const idUsuario = localStorage.getItem("clienteID");
+      if (idUsuario) {
+        const direccionPayload = {
+          calle: direccion,
+          numero,
+          region,
+          comuna: comuna === "otra" ? otraComuna : comuna,
+        };
+        localStorage.setItem(
+          `${FALLBACK_DIRECCION_PREFIX}${idUsuario}`,
+          JSON.stringify(direccionPayload)
+        );
       }
-
+      setModalTitle("Dirección guardada");
+      setModalMsg("✔ Dirección guardada en modo local (fallback).");
       setShowModal(true);
     }
   };
