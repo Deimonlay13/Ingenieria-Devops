@@ -699,6 +699,57 @@
   margin-top: 1rem;
 }
 
+/* Filtro de tipos con iconos (chips) */
+.tipo-filter-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+  align-items: center;
+}
+
+.tipo-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  border: 1px solid rgba(148, 163, 184, 0.35);
+  border-radius: 999px;
+  padding: 0.38rem 0.72rem;
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: #e2e8f0;
+  background: rgba(15, 23, 42, 0.72);
+  transition:
+    border-color 0.18s ease,
+    color 0.18s ease,
+    background 0.18s ease,
+    transform 0.15s ease;
+}
+
+.tipo-chip:hover {
+  border-color: rgba(229, 177, 91, 0.55);
+  color: #fefce8;
+  background: rgba(2, 6, 23, 0.88);
+  transform: translateY(-1px);
+}
+
+.tipo-chip--active {
+  border-color: #e5b15b;
+  color: #fef08a;
+  background: rgba(229, 177, 91, 0.14);
+  box-shadow: 0 0 0 1px rgba(229, 177, 91, 0.2);
+}
+
+.tipo-chip__icon {
+  font-size: 1rem;
+  opacity: 0.95;
+}
+
+.tipo-filter-count {
+  font-size: 0.95rem;
+  padding: 0.45rem 0.65rem;
+}
+
 .form-label {
   color: #cbd5e1;
   font-weight: 600;
