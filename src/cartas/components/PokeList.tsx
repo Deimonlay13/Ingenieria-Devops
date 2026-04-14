@@ -1,9 +1,10 @@
-import type { ChangeEvent, FC } from "react";
+import { useRef, useState, type ChangeEvent, type FC, type MouseEvent } from "react";
 import type { CartaPokemon } from "../interfaces/carta-pokemon.interface";
 import { Counter } from "../../counter/Counter";
 import "./pokeList.css"
 interface Props {
   cartas: CartaPokemon[];
+  cartaDestacada?: CartaPokemon;
   loading?: boolean;
   filtros?: {
     filtroTexto: string;
@@ -19,6 +20,7 @@ interface Props {
 
 export const PokeList: FC<Props> = ({
   cartas,
+  cartaDestacada,
   loading = false,
   filtros = {
     filtroTexto: "",
@@ -31,10 +33,103 @@ export const PokeList: FC<Props> = ({
   onTipoChange = () => undefined,
   onOrdenChange = () => undefined,
 }) => {
+  const HERO_FEATURED_IMG =
+    "https://dz3we2x72f7ol.cloudfront.net/expansions/perfect-order/en-us/P614_EN_62-2x.png";
+  const HERO_FEATURED_BACK = "https://images.pokemontcg.io/cardback.png";
+  const heroCardRef = useRef<HTMLDivElement | null>(null);
+  const [heroTransform, setHeroTransform] = useState(
+    "perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)"
+  );
+  const [heroShine, setHeroShine] = useState(
+    "linear-gradient(135deg, rgba(255,255,255,0.22) 0%, rgba(255,255,255,0.08) 14%, rgba(255,255,255,0) 70%)"
+  );
+
+  const handleHeroMouseMove = (event: MouseEvent<HTMLDivElement>) => {
+    if (!heroCardRef.current) return;
+    const rect = heroCardRef.current.getBoundingClientRect();
+    const x = (event.clientX - rect.left) / rect.width;
+    const y = (event.clientY - rect.top) / rect.height;
+    const rotateY = (x - 0.5) * 18;
+    const rotateX = (0.5 - y) * 16;
+
+    setHeroTransform(
+      `perspective(1100px) rotateX(${rotateX.toFixed(2)}deg) rotateY(${rotateY.toFixed(2)}deg) scale3d(1.02, 1.02, 1.02)`
+    );
+
+    const angle = Math.atan2(y - 0.5, x - 0.5);
+    setHeroShine(
+      `linear-gradient(${angle}rad, rgba(255,255,255,0.24) 0%, rgba(255,255,255,0.16) 8%, rgba(255,255,255,0.02) 36%, rgba(255,255,255,0) 78%)`
+    );
+  };
+
+  const handleHeroMouseLeave = () => {
+    setHeroTransform("perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)");
+    setHeroShine(
+      "linear-gradient(135deg, rgba(255,255,255,0.22) 0%, rgba(255,255,255,0.08) 14%, rgba(255,255,255,0) 70%)"
+    );
+  };
+
+  const handleExplorar = () => {
+    const section = document.getElementById("cards-filtros");
+    section?.scrollIntoView({ behavior: "smooth", block: "start" });
+  };
+
+  const handleVerCarrito = () => {
+    const cartButton = document.querySelector(".btn-cart") as HTMLButtonElement | null;
+    cartButton?.click();
+  };
+
   return (
-    <div className="container  pb-5">
-      <div className="text-center my-4 title-container">
-        <h1 className="section-title">Descubre nuestra colección Pokémon</h1>
+    <div className="container pb-5">
+      <section className="hero-cards mt-4 mb-5">
+        <div className="hero-overlay"></div>
+        <div className="row align-items-center g-4 position-relative">
+          <div className="col-12 col-lg-7">
+            <p className="hero-kicker mb-2">Pokemon TCG Store</p>
+            <h1 className="hero-title mb-3">Descubre nuestra colección Pokemon</h1>
+            <p className="hero-subtitle mb-4">
+              Explora cartas reales, encuentra tus favoritas y arma tu mazo ideal con una experiencia de compra
+              rapida y moderna.
+            </p>
+            <div className="d-flex flex-wrap gap-2">
+              <button type="button" className="btn btn-gaming hero-btn" onClick={handleExplorar}>
+                Explorar cartas
+              </button>
+              <button type="button" className="btn btn-outline-light hero-btn-secondary" onClick={handleVerCarrito}>
+                Ver carrito
+              </button>
+            </div>
+          </div>
+
+          <div className="col-12 col-lg-5 d-flex justify-content-center justify-content-lg-end">
+            <div className="hero-featured-card">
+              <div
+                ref={heroCardRef}
+                className="card__img-wrapper perspective-card__transformer"
+                style={{ transform: heroTransform }}
+                onMouseMove={handleHeroMouseMove}
+                onMouseLeave={handleHeroMouseLeave}
+              >
+                <div className="card__img card__img--front">
+                  <img src={HERO_FEATURED_IMG} alt="Meowth ex" />
+                </div>
+                <div className="card__img card__img--back">
+                  <img alt="Card back" src={HERO_FEATURED_BACK} />
+                </div>
+                <div className="card__shine perspective-card__shine" style={{ background: heroShine }}></div>
+              </div>
+              <div className="hero-featured-info">
+                <span className="hero-featured-type">{cartaDestacada?.tipo || "Pokemon ex"}</span>
+                <h3 className="mb-1">Meowth ex</h3>
+                <small>Carta destacada del hero</small>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <div id="cards-filtros" className="text-center my-4 title-container">
+        <h2 className="section-title">Explora nuestras cartas</h2>
       </div>
       <div className="card p-3 mb-4 card-translucent">
         <div className="row g-2 align-items-end">

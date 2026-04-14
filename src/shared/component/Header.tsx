@@ -60,7 +60,7 @@ const Header = () => {
     : "";
 
   return (
-    <Navbar bg="dark" variant="dark" expand="lg" sticky="top">
+    <Navbar className="app-header" bg="dark" variant="dark" expand="lg" sticky="top">
       <Container>
         <Navbar.Brand as={NavLink} to="/">
           <Figure className="align-self-end">
@@ -98,7 +98,7 @@ const Header = () => {
         </Navbar.Collapse>
 
         <button
-          className="btn btn-outline-primary position-relative"
+          className="btn btn-outline-primary btn-cart position-relative"
           onClick={() => setShowCart(!showCart)}
         >
           🛒 Carrito
@@ -160,7 +160,7 @@ const Header = () => {
         <Offcanvas.Body>
           <CartDetails />
           <button
-            className="btn btn-success btn-lg w-100 mt-4"
+            className="btn btn-gaming btn-lg w-100 mt-4"
             onClick={() => {
               if (!user) {
                 // usuario NO logueado → mostrar modal

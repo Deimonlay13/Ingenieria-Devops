@@ -58,6 +58,7 @@ export const PokeContainer: FC = () => {
   return (
     <PokeList
       cartas={cartasFiltradas}
+      cartaDestacada={cards[0]}
       loading={loading}
       filtros={{
         filtroTexto,

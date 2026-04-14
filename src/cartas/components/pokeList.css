@@ -1,21 +1,179 @@
+.hero-cards {
+  position: relative;
+  padding: clamp(1.4rem, 3vw, 2.2rem);
+  border-radius: 20px;
+  overflow: hidden;
+  background-image:
+    linear-gradient(95deg, rgba(2, 6, 23, 0.88) 0%, rgba(2, 6, 23, 0.75) 42%, rgba(2, 6, 23, 0.42) 100%),
+    url("https://d1i787aglh9bmb.cloudfront.net/assets/img/home/featured-switcher/me03/booster-art-4-large-up-2x.jpg");
+  background-size: cover;
+  background-position: center;
+  border: 1px solid rgba(148, 163, 184, 0.28);
+  box-shadow: 0 22px 42px rgba(2, 6, 23, 0.55);
+}
+
+.hero-overlay {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at right center, rgba(250, 204, 21, 0.08), transparent 45%);
+  pointer-events: none;
+}
+
+.hero-kicker {
+  display: inline-block;
+  font-size: 0.82rem;
+  letter-spacing: 1.4px;
+  text-transform: uppercase;
+  color: #fde047;
+  background: rgba(15, 23, 42, 0.55);
+  border: 1px solid rgba(250, 204, 21, 0.45);
+  border-radius: 999px;
+  padding: 0.2rem 0.7rem;
+}
+
+.hero-title {
+  font-size: clamp(2rem, 4.6vw, 3.2rem);
+  font-weight: 800;
+  color: #ffffff;
+  line-height: 1.1;
+  text-shadow: 0 4px 14px rgba(2, 6, 23, 0.55);
+}
+
+.hero-subtitle {
+  max-width: 620px;
+  color: #cbd5e1;
+  font-size: 1.05rem;
+}
+
+.hero-btn,
+.hero-btn-secondary {
+  min-width: 148px;
+}
+
+.hero-btn-secondary {
+  border-radius: 12px;
+  border-color: rgba(226, 232, 240, 0.7);
+  font-weight: 600;
+}
+
+.hero-btn-secondary:hover {
+  background-color: rgba(255, 255, 255, 0.12);
+  border-color: #ffffff;
+}
+
+.hero-featured-card {
+  width: min(100%, 340px);
+  border-radius: 18px;
+  background: linear-gradient(180deg, rgba(15, 23, 42, 0.6), rgba(2, 6, 23, 0.85));
+  border: 1px solid rgba(250, 204, 21, 0.32);
+  overflow: hidden;
+  box-shadow: 0 16px 34px rgba(2, 6, 23, 0.6);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.hero-featured-card:hover {
+  transform: translateY(-6px) scale(1.02);
+  box-shadow: 0 0 26px rgba(250, 204, 21, 0.32), 0 24px 35px rgba(2, 6, 23, 0.62);
+}
+
+.card__img-wrapper {
+  position: relative;
+  transform-style: preserve-3d;
+  transition: transform 0.12s ease-out;
+  will-change: transform;
+  border-radius: 14px 14px 0 0;
+  overflow: hidden;
+}
+
+.card__img {
+  position: relative;
+}
+
+.card__img img {
+  width: 100%;
+  aspect-ratio: 3 / 4;
+  object-fit: cover;
+  display: block;
+}
+
+.card__img--back {
+  display: none;
+}
+
+.card__shine {
+  position: absolute;
+  inset: 0;
+  mix-blend-mode: screen;
+  opacity: 0.9;
+  pointer-events: none;
+}
+
+.hero-featured-info {
+  padding: 0.9rem 1rem 1.1rem 1rem;
+  color: #f8fafc;
+}
+
+.hero-featured-info h3 {
+  font-size: 1.2rem;
+  font-weight: 700;
+}
+
+.hero-featured-info small {
+  color: #94a3b8;
+}
+
+.hero-featured-type {
+  display: inline-block;
+  margin-bottom: 0.55rem;
+  font-size: 0.76rem;
+  font-weight: 700;
+  letter-spacing: 0.6px;
+  border-radius: 999px;
+  color: #fde047;
+  border: 1px solid rgba(250, 204, 21, 0.55);
+  background: rgba(15, 23, 42, 0.62);
+  padding: 0.22rem 0.62rem;
+}
+
+.hero-featured-placeholder {
+  min-height: 360px;
+  display: grid;
+  place-items: center;
+  color: #cbd5e1;
+  font-weight: 600;
+  background: rgba(2, 6, 23, 0.45);
+}
+
 .card-translucent {
-  --bs-card-bg: rgb(255 255 255 / 0.6) !important;
+  --bs-card-bg: #0f172a !important;
 }
 
 .card-pokemon {
-  border: 1px solid rgba(255, 255, 255, 0.55);
+  border: 1px solid rgba(148, 163, 184, 0.3);
   border-radius: 14px;
   overflow: hidden;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  background: linear-gradient(
+    180deg,
+    rgba(15, 23, 42, 0.62) 0%,
+    rgba(2, 6, 23, 0.72) 100%
+  );
+  backdrop-filter: blur(3px);
+  box-shadow: 0 12px 24px rgba(2, 6, 23, 0.45);
+  transition: transform 0.22s ease, box-shadow 0.22s ease;
 }
 
 .card-pokemon:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.12);
+  transform: translateY(-8px) scale(1.02);
+  box-shadow: 0 22px 35px rgba(2, 6, 23, 0.6);
 }
 
 .card-image-wrap {
   position: relative;
+  background: linear-gradient(
+    180deg,
+    rgba(15, 23, 42, 0.34) 0%,
+    rgba(2, 6, 23, 0.24) 100%
+  );
 }
 
 .badge-tipo {
@@ -23,20 +181,96 @@
   top: 10px;
   right: 10px;
   z-index: 2;
+  background-color: rgba(15, 23, 42, 0.55) !important;
+  color: #fde047 !important;
+  border: 1px solid rgba(250, 204, 21, 0.5);
+  backdrop-filter: blur(4px);
+  box-shadow: 0 4px 10px rgba(2, 6, 23, 0.35);
 }
 
 .card-img-top {
-  height: 280px;
+  height: 310px;
   object-fit: contain;
-  background-color: rgba(255, 255, 255, 0.45);
-  padding: 10px;
+  background-color: transparent;
+  padding: 14px;
 }
 
 .card-title-fixed {
   min-height: 52px;
   margin-bottom: 12px;
+  color: #ffffff;
+  font-weight: 700;
+  text-shadow: 0 1px 6px rgba(0, 0, 0, 0.55);
 }
 
 .card-meta {
   min-height: 58px;
+}
+
+.card-meta .card-text {
+  color: #e2e8f0 !important;
+  font-size: 1.08rem;
+  text-shadow: 0 1px 6px rgba(0, 0, 0, 0.55);
+}
+
+.card-meta strong {
+  color: #f8fafc;
+  font-weight: 800;
+}
+
+.card-body {
+  background: linear-gradient(
+    180deg,
+    rgba(15, 23, 42, 0.48) 0%,
+    rgba(2, 6, 23, 0.62) 100%
+  );
+}
+
+.title-container .section-title {
+  margin-top: 1rem;
+}
+
+.form-label {
+  color: #cbd5e1;
+  font-weight: 600;
+}
+
+.form-control,
+.form-select {
+  background-color: #0b1324;
+  border: 1px solid rgba(148, 163, 184, 0.25);
+  color: #f8fafc;
+}
+
+.form-control::placeholder {
+  color: #64748b;
+}
+
+.form-control:focus,
+.form-select:focus {
+  border-color: #facc15;
+  box-shadow: 0 0 0 0.2rem rgba(250, 204, 21, 0.2);
+}
+
+.badge.text-bg-primary {
+  background-color: #facc15 !important;
+  color: #111827 !important;
+  font-size: 0.85rem;
+}
+
+@media (max-width: 991px) {
+  .hero-cards {
+    padding: 1.25rem;
+    background-image:
+      linear-gradient(180deg, rgba(2, 6, 23, 0.9), rgba(2, 6, 23, 0.58)),
+      url("https://d1i787aglh9bmb.cloudfront.net/assets/img/home/featured-switcher/me03/booster-art-4-large-up-2x.jpg");
+  }
+
+  .hero-subtitle {
+    max-width: 100%;
+  }
+
+  .hero-featured-card {
+    width: min(100%, 320px);
+  }
 }
