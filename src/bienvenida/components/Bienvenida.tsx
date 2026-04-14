@@ -7,9 +7,9 @@ import Card from 'react-bootstrap/Card';
 const Bienvenida: React.FC = () => {
     return (
         <>
-            <main>
+            <main className="home-page">
                 {/* HERO */}
-                <Carousel>
+                <Carousel className="hero-carousel">
                     <Carousel.Item>
                         <img
                             className="d-block w-100"
@@ -59,7 +59,7 @@ const Bienvenida: React.FC = () => {
                                 href="https://www.pokemon.com/static-assets/content-assets/cms2-es-es/pdf/trading-card-game/rulebook/twm_rulebook_es.pdf"
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="btn btn-primary"
+                                className="btn btn-gaming"
                             >
                                 Ver más
                             </a>
@@ -82,7 +82,7 @@ const Bienvenida: React.FC = () => {
                                 href="https://pokemoncard.io/category/tournament-decks/"
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="btn btn-primary"
+                                className="btn btn-gaming"
                             >
                                 Ver más
                             </a>
@@ -104,7 +104,7 @@ const Bienvenida: React.FC = () => {
                                 href="https://www.pokemon.com/el/estrategia/consejos-para-disenar-una-baraja-desde-el-principio"
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="btn btn-primary"
+                                className="btn btn-gaming"
                             >
                                 Ver más
                             </a>
