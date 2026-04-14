@@ -1,0 +1,101 @@
+.noticias-container {
+  width: min(1100px, 100%);
+  margin: 0 auto;
+  padding: 2.5rem 1.2rem 0;
+}
+
+.news-link {
+  display: block;
+}
+
+/* Tema oscuro: sin parche blanco (Bootstrap .card / .card-body suelen forzar claro) */
+.news-card {
+  --bs-card-bg: rgba(15, 23, 42, 0.92);
+  --bs-card-border-color: rgba(148, 163, 184, 0.28);
+  --bs-card-color: #e2e8f0;
+  --bs-body-bg: rgba(15, 23, 42, 0.92);
+  --bs-secondary-color: #94a3b8;
+  overflow: hidden;
+  border-radius: 14px;
+  background: linear-gradient(
+    145deg,
+    rgba(15, 23, 42, 0.96) 0%,
+    rgba(2, 6, 23, 0.92) 100%
+  ) !important;
+  background-color: rgba(15, 23, 42, 0.92) !important;
+  color: #e2e8f0 !important;
+  border: 1px solid rgba(148, 163, 184, 0.28) !important;
+  backdrop-filter: blur(10px);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.news-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 16px 32px rgba(2, 6, 23, 0.55) !important;
+}
+
+.news-row {
+  align-items: stretch;
+}
+
+/* Evita que la columna de texto pinte un bloque distinto al resto de la card */
+.news-card .news-row > [class*="col-"] {
+  background: transparent !important;
+}
+
+.news-image-col {
+  min-height: 220px;
+}
+
+.news-card-img {
+  width: 100%;
+  height: 100%;
+  min-height: 220px;
+  object-fit: cover;
+  display: block;
+}
+
+.news-card-body {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 1.1rem 1.2rem;
+  /* Mismo tono que la card, nunca blanco */
+  background: transparent !important;
+  background-color: transparent !important;
+  color: #e2e8f0 !important;
+}
+
+/* Texto legible sobre fondo oscuro */
+.news-card .news-date.card-text,
+.news-card .news-date {
+  color: #94a3b8 !important;
+  font-size: 0.875rem;
+  font-weight: 600;
+}
+
+.news-card .news-title.card-title,
+.news-card .news-title {
+  color: #f8fafc !important;
+  margin-bottom: 0.5rem;
+  font-weight: 700;
+}
+
+.news-card .news-description.card-text,
+.news-card .news-description {
+  color: #cbd5e1 !important;
+  line-height: 1.55;
+}
+
+@media (max-width: 767px) {
+  .noticias-container {
+    padding-left: 0.9rem;
+    padding-right: 0.9rem;
+  }
+
+  .news-image-col,
+  .news-card-img {
+    min-height: 180px;
+  }
+}
