@@ -1,3 +1,42 @@
 .card-translucent {
   --bs-card-bg: rgb(255 255 255 / 0.6) !important;
 }
+
+.card-pokemon {
+  border: 1px solid rgba(255, 255, 255, 0.55);
+  border-radius: 14px;
+  overflow: hidden;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.card-pokemon:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.12);
+}
+
+.card-image-wrap {
+  position: relative;
+}
+
+.badge-tipo {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  z-index: 2;
+}
+
+.card-img-top {
+  height: 280px;
+  object-fit: contain;
+  background-color: rgba(255, 255, 255, 0.45);
+  padding: 10px;
+}
+
+.card-title-fixed {
+  min-height: 52px;
+  margin-bottom: 12px;
+}
+
+.card-meta {
+  min-height: 58px;
+}
