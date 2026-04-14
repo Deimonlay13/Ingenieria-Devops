@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState, type ChangeEvent, type FC } from "react";
 import type { CartaPokemon } from "../interfaces/carta-pokemon.interface";
+import { mergeTiposFiltro } from "../constants/tiposFiltro";
 import { PokeList } from "./PokeList";
 import { buscarCartas, obtenerCartas } from "../../services/tcgService";
 
@@ -33,7 +34,8 @@ export const PokeContainer: FC = () => {
   }, [filtroTexto]);
 
   const tiposDisponibles = useMemo(() => {
-    return [...new Set(cards.map((card) => card.tipo).filter((tipo): tipo is string => Boolean(tipo)))].sort();
+    const desdeCartas = [...new Set(cards.map((c) => c.tipo).filter((t): t is string => Boolean(t)))];
+    return mergeTiposFiltro(desdeCartas);
   }, [cards]);
 
   const cartasFiltradas = useMemo(() => {
@@ -52,7 +54,7 @@ export const PokeContainer: FC = () => {
   }, [cards, filtroTexto, filtroTipo, ordenPrecio]);
 
   const onTextoChange = (e: ChangeEvent<HTMLInputElement>) => setFiltroTexto(e.target.value);
-  const onTipoChange = (e: ChangeEvent<HTMLSelectElement>) => setFiltroTipo(e.target.value);
+  const onTipoChange = (tipo: string) => setFiltroTipo(tipo);
   const onOrdenChange = (e: ChangeEvent<HTMLSelectElement>) => setOrdenPrecio(e.target.value);
 
   return (

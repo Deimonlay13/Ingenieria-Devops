@@ -1,7 +1,8 @@
 import { useRef, useState, type ChangeEvent, type FC, type MouseEvent } from "react";
 import type { CartaPokemon } from "../interfaces/carta-pokemon.interface";
+import { metaTipo } from "../constants/tiposFiltro";
 import { Counter } from "../../counter/Counter";
-import "./pokeList.css"
+import "./pokeList.css";
 /** Borde / zona central estilo carta según tipo (texto API o español) */
 function tcgVariantClass(tipo?: string): string {
   const raw = (tipo ?? "").trim().toLowerCase();
@@ -44,7 +45,7 @@ interface Props {
     total: number;
   };
   onTextoChange?: (e: ChangeEvent<HTMLInputElement>) => void;
-  onTipoChange?: (e: ChangeEvent<HTMLSelectElement>) => void;
+  onTipoChange?: (tipo: string) => void;
   onOrdenChange?: (e: ChangeEvent<HTMLSelectElement>) => void;
 }
 
@@ -163,36 +164,75 @@ export const PokeList: FC<Props> = ({
       </div>
       <div className="card p-3 mb-4 card-translucent">
         <div className="row g-2 align-items-end">
-          <div className="col-12 col-md-5">
-            <label className="form-label mb-1">Buscar carta</label>
-            <input
-              className="form-control"
-              placeholder="Ej: pikachu, charizard..."
-              value={filtros.filtroTexto}
-              onChange={onTextoChange}
-            />
+          <div className="col-12 col-md-5 col-lg-4">
+            <label className="form-label mb-1" htmlFor="filtro-buscar-carta">
+              Buscar carta
+            </label>
+            <div className="input-group filter-input-group">
+              <span className="input-group-text" aria-label="Buscar">
+                <i className="bi bi-search" aria-hidden />
+              </span>
+              <input
+                id="filtro-buscar-carta"
+                type="search"
+                className="form-control"
+                placeholder="Ej: pikachu, charizard..."
+                value={filtros.filtroTexto}
+                onChange={onTextoChange}
+                autoComplete="off"
+              />
+            </div>
           </div>
-          <div className="col-6 col-md-3">
-            <label className="form-label mb-1">Tipo</label>
-            <select className="form-select" value={filtros.filtroTipo} onChange={onTipoChange}>
-              <option value="todos">Todos</option>
-              {filtros.tiposDisponibles.map((tipo) => (
-                <option key={tipo} value={tipo}>
-                  {tipo}
-                </option>
-              ))}
-            </select>
+          <div className="col-6 col-md-3 col-lg-3">
+            <label className="form-label mb-1" htmlFor="filtro-orden-precio">
+              Orden por precio
+            </label>
+            <div className="input-group filter-input-group">
+              <span className="input-group-text" aria-label="Ordenar por precio">
+                <i className="bi bi-currency-dollar" aria-hidden />
+              </span>
+              <select
+                id="filtro-orden-precio"
+                className="form-select"
+                value={filtros.ordenPrecio}
+                onChange={onOrdenChange}
+              >
+                <option value="ninguno">Sin orden</option>
+                <option value="asc">Menor a mayor</option>
+                <option value="desc">Mayor a menor</option>
+              </select>
+            </div>
           </div>
-          <div className="col-6 col-md-3">
-            <label className="form-label mb-1">Orden precio</label>
-            <select className="form-select" value={filtros.ordenPrecio} onChange={onOrdenChange}>
-              <option value="ninguno">Sin orden</option>
-              <option value="asc">Menor a mayor</option>
-              <option value="desc">Mayor a menor</option>
-            </select>
+          <div className="col-6 col-md-4 col-lg-2 d-flex align-items-end justify-content-md-end ms-lg-auto">
+            <span className="badge text-bg-primary tipo-filter-count">{filtros.total}</span>
           </div>
-          <div className="col-12 col-md-1 d-flex align-items-center justify-content-md-end">
-            <span className="badge text-bg-primary">{filtros.total}</span>
+        </div>
+        <div className="mt-3 pt-2 border-top border-secondary border-opacity-25">
+          <label className="form-label mb-2 d-block">Tipo de carta</label>
+          <div className="tipo-filter-chips" role="group" aria-label="Filtrar por tipo de Pokémon">
+            <button
+              type="button"
+              className={`tipo-chip ${filtros.filtroTipo === "todos" ? "tipo-chip--active" : ""}`}
+              onClick={() => onTipoChange("todos")}
+            >
+              <i className="bi bi-grid-fill tipo-chip__icon" aria-hidden />
+              <span>Todos</span>
+            </button>
+            {filtros.tiposDisponibles.map((tipo) => {
+              const m = metaTipo(tipo);
+              return (
+                <button
+                  key={tipo}
+                  type="button"
+                  className={`tipo-chip ${filtros.filtroTipo === tipo ? "tipo-chip--active" : ""}`}
+                  onClick={() => onTipoChange(tipo)}
+                  title={m.value}
+                >
+                  <i className={`bi bi-${m.icon} tipo-chip__icon`} aria-hidden />
+                  <span>{m.labelEs}</span>
+                </button>
+              );
+            })}
           </div>
         </div>
       </div>
