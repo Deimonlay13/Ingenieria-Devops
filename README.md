@@ -1,10 +1,21 @@
 # 🃏 Ingeniería DevOps - Pokémon TCG Store
+## 📸 Screenshots
+
+### 🏠 Home
+![Home](./screenshots/home.png)
+
+### 🃏 Cartas
+![Cartas](./screenshots/cartas.png)
+
+###  Noticias
+![Noticias](./screenshots/noticias.png)
 
 ## 📌 Descripción
 
 Aplicación frontend desarrollada en React para la visualización y gestión de cartas Pokémon TCG.
 
 El proyecto fue utilizado como base para implementar prácticas DevOps, incluyendo control de versiones, trabajo colaborativo y automatización mediante GitHub Actions.
+
 
 ### Funcionalidades principales:
 
@@ -91,16 +102,6 @@ Para obtener datos reales de cartas Pokémon TCG.
 
 Se implementó un sistema de fallback utilizando datos mock, permitiendo que la aplicación continúe funcionando en caso de que la API externa no esté disponible.
 
-## 📸 Screenshots
-
-### 🏠 Home
-![Home](./screenshots/home.png)
-
-### 🃏 Cartas
-![Cartas](./screenshots/cartas.png)
-
-###  Noticias
-![Noticias](./screenshots/noticias.png)
 
 🤖 Uso de Inteligencia Artificial
 
